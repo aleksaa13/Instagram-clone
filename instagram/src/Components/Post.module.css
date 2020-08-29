@@ -1,0 +1,28 @@
+.post {
+  max-width: 500px;
+  border: 1px solid lightgray;
+  background-color: white;
+  margin-bottom: 45px;
+}
+
+.postImage {
+  width: 100%;
+  object-fit: contain;
+  border-top: 1px sold lightgray;
+  border-bottom: 1px sold lightgray;
+}
+
+.postText {
+  font-weight: normal;
+  padding: 20px;
+}
+
+.postAvatar {
+  margin-right: 10px;
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  padding: 20px 10px;
+}
