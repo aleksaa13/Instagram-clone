@@ -1,22 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./App.module.css";
 import Post from "./Components/Post";
+import { db } from "./firebase";
 
 function App() {
-  const [posts, setPosts] = useState([
-    {
-      username: "aleksa_a13",
-      imageUrl:
-        "https://images.unsplash.com/photo-1494253109108-2e30c049369b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-      caption: "lepa slika",
-    },
-    {
-      username: "mangula",
-      imageUrl:
-        "https://images.unsplash.com/photo-1494253109108-2e30c049369b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-      caption: "sfasfsafsafsafasfa",
-    },
-  ]);
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    db.collection("posts").onSnapshot((snapshot) => {
+      setPosts(snapshot.docs.map((doc) => ({ id: doc.id, post: doc.data() })));
+    });
+  }, []);
+
   return (
     <div className={classes.App}>
       <div className={classes.app__header}>
@@ -28,9 +22,10 @@ function App() {
       </div>
       {posts.map((post) => (
         <Post
-          username={post.username}
-          imageUrl={post.imageUrl}
-          caption={post.caption}
+          key={post.id}
+          username={post.post.username}
+          imageUrl={post.post.imageUrl}
+          caption={post.post.caption}
         />
       ))}
     </div>
