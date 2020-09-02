@@ -180,6 +180,8 @@ function App() {
 
       {posts.map((post) => (
         <Post
+          user={user}
+          postId={post.id}
           key={post.id}
           username={post.post.username}
           imageUrl={post.post.imageUrl}
