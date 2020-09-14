@@ -1,0 +1,14 @@
+.Upload {
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px grey;
+  border-radius: 15px;
+  box-shadow: black 1px 1px 1px;
+}
+.Upload input {
+  margin: 2px;
+}
