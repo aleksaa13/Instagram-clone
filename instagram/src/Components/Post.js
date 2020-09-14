@@ -3,10 +3,13 @@ import classes from "./Post.module.css";
 import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase";
 import firebase from "firebase";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Post = (props) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState([]);
 
   useEffect(() => {
     let unsubscribe;
@@ -24,6 +27,38 @@ const Post = (props) => {
       unsubscribe();
     };
   }, [props.postId]);
+
+  useEffect(() => {
+    let unsubscribee;
+    if (props.postId) {
+      unsubscribee = db
+        .collection("posts")
+        .doc(props.postId)
+        .collection("likes")
+        .onSnapshot((snapshot) => {
+          setLikes(snapshot.docs.map((doc) => doc.data()));
+        });
+    }
+    return () => {
+      unsubscribee();
+    };
+  }, [props.postId]);
+
+  const addLike = (event) => {
+    event.preventDefault();
+    let allLikes = db.collection("posts").doc(props.postId).collection("likes");
+    allLikes.onSnapshot((snapshot) => {
+      const data = snapshot.docs.map((doc) => doc.data().name);
+      setLikes(data);
+    });
+    if (likes.includes(props.user.displayName)) {
+    } else {
+      db.collection("posts")
+        .doc(props.postId)
+        .collection("likes")
+        .add({ name: props.user.displayName });
+    }
+  };
 
   const postComment = (event) => {
     event.preventDefault();
@@ -54,6 +89,10 @@ const Post = (props) => {
         <strong>{props.username} </strong>
         {props.caption}
       </h4>
+      <div onClick={addLike} className={classes.likes}>
+        <FontAwesomeIcon icon={faHeart} />
+        <p>{likes.length}</p>
+      </div>
       {/*username + caption */}
       <div className={classes.postComments}>
         {comments.map((comment) => (
