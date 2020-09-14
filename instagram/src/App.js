@@ -177,7 +177,7 @@ function App() {
       {user?.displayName ? (
         <ImageUpload username={user.displayName}></ImageUpload>
       ) : (
-        <h3>Log in to upload</h3>
+        <h3>Log in to upload and see more</h3>
       )}
 
       {posts.map((post) => (

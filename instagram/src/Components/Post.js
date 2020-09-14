@@ -36,7 +36,8 @@ const Post = (props) => {
         .doc(props.postId)
         .collection("likes")
         .onSnapshot((snapshot) => {
-          setLikes(snapshot.docs.map((doc) => doc.data()));
+          const data = snapshot.docs.map((doc) => doc.data().name);
+          setLikes(data);
         });
     }
     return () => {
@@ -85,43 +86,55 @@ const Post = (props) => {
       <img className={classes.postImage} alt="aleksa" src={props.imageUrl} />
       {/*image*/}
 
-      <h4 className={classes.postText}>
-        <strong>{props.username} </strong>
-        {props.caption}
-      </h4>
-      <div onClick={addLike} className={classes.likes}>
-        <FontAwesomeIcon icon={faHeart} />
-        <p>{likes.length}</p>
-      </div>
-      {/*username + caption */}
-      <div className={classes.postComments}>
-        {comments.map((comment) => (
-          <p>
-            <strong>{comment.username}</strong>
-            {comment.text}
-          </p>
-        ))}
-      </div>
-
       {props.user ? (
         <React.Fragment>
-          <form className={classes.commentForm}>
-            <input
-              className={classes.postInput}
-              type="text"
-              placeholder="Add a comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
-          </form>
-          <button
-            className={classes.postButton}
-            disabled={!comment}
-            type="submit"
-            onClick={postComment}
-          >
-            Post
-          </button>
+          <h4 className={classes.postText}>
+            <strong>{props.username} </strong>
+            {props.caption}
+          </h4>
+          <hr></hr>
+          <div onClick={addLike} className={classes.likes}>
+            <div className={classes.icon}>
+              <FontAwesomeIcon
+                icon={faHeart}
+                style={
+                  likes.includes(props.user.displayName)
+                    ? { color: "red" }
+                    : { color: "black" }
+                }
+              />
+            </div>
+            <p className={classes.likesNumber}>{likes.length}</p>
+          </div>
+          <hr></hr>
+          {/*username + caption */}
+          <div className={classes.postComments}>
+            {comments.map((comment) => (
+              <p>
+                <strong>{comment.username} </strong>
+                {comment.text}
+              </p>
+            ))}
+          </div>
+          <div className={classes.addComment}>
+            <form className={classes.commentForm}>
+              <input
+                className={classes.postInput}
+                type="text"
+                placeholder="Add a comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </form>
+            <button
+              className={classes.postButton}
+              disabled={!comment}
+              type="submit"
+              onClick={postComment}
+            >
+              Post
+            </button>
+          </div>
         </React.Fragment>
       ) : null}
     </div>

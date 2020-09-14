@@ -32,6 +32,25 @@
   margin-top: 10px;
 }
 
+.likes {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 5px 15px;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+}
+
+.likesNumber {
+  align-self: flex-end;
+}
+
 .postInput {
   flex: 1;
   border: none;
@@ -45,4 +64,17 @@
   border-top: 1px solid lightgray;
   background-color: transparent;
   color: #6082a3;
+  cursor: pointer;
+  justify-self: flex-end;
+}
+
+.addComment {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin: 5px;
+}
+
+.postComments {
+  margin: 10px;
 }
