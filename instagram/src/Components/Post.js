@@ -5,11 +5,39 @@ import { db } from "../firebase";
 import firebase from "firebase";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Modal from "@material-ui/core/Modal";
+import { makeStyles } from "@material-ui/core/styles";
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: "absolute",
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 const Post = (props) => {
+  const classesModal = useStyles();
+  const [modalStyle] = useState(getModalStyle);
+
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState([]);
+  const [likesOpen, setLikesOpen] = useState(false);
 
   useEffect(() => {
     let unsubscribe;
@@ -82,10 +110,8 @@ const Post = (props) => {
         />
         <h3>{props.username}</h3>
       </div>
-
       <img className={classes.postImage} alt="aleksa" src={props.imageUrl} />
       {/*image*/}
-
       {props.user ? (
         <React.Fragment>
           <h4 className={classes.postText}>
@@ -104,7 +130,12 @@ const Post = (props) => {
                 }
               />
             </div>
-            <p className={classes.likesNumber}>{likes.length}</p>
+            <p
+              onClick={() => setLikesOpen(true)}
+              className={classes.likesNumber}
+            >
+              {likes.length}
+            </p>
           </div>
           <hr></hr>
           {/*username + caption */}
@@ -137,6 +168,17 @@ const Post = (props) => {
           </div>
         </React.Fragment>
       ) : null}
+      <Modal open={likesOpen} onClose={() => setLikesOpen(false)}>
+        <div style={modalStyle} className={classesModal.paper}>
+          <p> {`Likes: ${likes.length}`} </p>
+          <ul>
+            {likes.map((name) => {
+              return <li>{name}</li>;
+            })}
+          </ul>
+        </div>
+      </Modal>
+      );
     </div>
   );
 };
