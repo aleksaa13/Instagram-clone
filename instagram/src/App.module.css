@@ -27,3 +27,7 @@
   flex-direction: column;
   text-align: center;
 }
+
+.upload {
+  margin-top: 100px;
+}

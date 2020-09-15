@@ -178,7 +178,6 @@ const Post = (props) => {
           </ul>
         </div>
       </Modal>
-      );
     </div>
   );
 };

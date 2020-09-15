@@ -156,6 +156,7 @@ function App() {
           </form>
         </div>
       </Modal>
+
       <div className={classesModule.app__header}>
         <img
           className={classesModule.app__headerImage}
@@ -173,12 +174,13 @@ function App() {
           )}
         </div>
       </div>
-
-      {user?.displayName ? (
-        <ImageUpload username={user.displayName}></ImageUpload>
-      ) : (
-        <h3>Log in to upload and see more</h3>
-      )}
+      <div className={classesModule.upload}>
+        {user?.displayName ? (
+          <ImageUpload username={user.displayName}></ImageUpload>
+        ) : (
+          <h3>Log in to upload and see more</h3>
+        )}
+      </div>
 
       {posts.map((post) => (
         <Post
